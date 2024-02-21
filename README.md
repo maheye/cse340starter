@@ -16,7 +16,7 @@ You will need to either install or activate PNPM before using it. See https://pn
 2. Open the VSC terminal: Terminal > New Window.
 3. Run the following command in the terminal:
 
-    pnpm install
+    pnpm install 
 
 4. The first time it may take a few minutes, depending on the speed of your computer and the speed of your Internet connection. This command will instruct PNPM to read the package.json file and download and install the dependencies (packages) needed for the project. It will build a "node_modules" folder storing each dependency and its dependencies. It should also create a pnpm-lock.yaml file. This file should NEVER be altered by you. It is an internal file (think of it as an inventory) that PNPM uses to keep track of everything in the project.
 

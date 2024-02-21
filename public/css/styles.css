@@ -4,3 +4,226 @@
 *:after {
   box-sizing: border-box;
 }
+
+body {
+  font-family: sans-serif;
+}
+
+#wrapper {
+  width: 100%;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header a {
+  align-self: center;
+  text-decoration: none;
+  color: black;
+  font-size: 1.2em;
+}
+
+#top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white ;
+  padding: 10px;
+}
+
+.siteName a {
+  text-decoration: none;
+  color: black;
+  font-size: 2rem;
+}
+
+#tools a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+}
+
+nav {
+  background-color: black;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav li {
+  margin: 0 10px;
+  font-size: 18px;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+nav li:hover {
+  background-color: #1942c6;
+}
+
+h1 {
+  margin: 20px 0px 20px 0;
+  font-size: 2em;
+  font: bold;
+}
+
+/* Hero section */
+#hero {
+  position: relative;
+}
+
+#hero-img {
+  width: 100%;
+  height: auto;
+}
+
+#banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(248, 247, 247, 0.5);
+  color: #4c96d7;
+  padding: 20px;
+  margin-bottom: 10rem;
+  text-align: center;
+}
+
+#banner h2 {
+  line-height: 100%;
+  display: inline;
+  font-size: 1.1em;
+}
+
+#banner img {
+  width: 80%;
+  margin-bottom: 10px;
+}
+
+#hero2 {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.reviews-section1 {
+  margin-left: 20px;
+}
+
+#reviews-title1, #reviews-title2 {
+  font-size: 1.5em;
+  margin: 15px 0 20px 0;
+}
+
+.upgrades-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.upgrade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 48%;
+  margin-bottom: 20px;
+}
+
+.upgrades-container img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4c96d7;
+  color: #4c96d7;
+  font-size: 1.2em;
+  text-align: center;
+  width: 100%;
+}
+
+.reviews {
+  font-size: 1.1em;
+  line-height: 1.5em;
+  padding-left: 0;
+  margin-left: 15px;
+}
+
+.reviews li {
+  padding: 5px 0;
+}
+
+footer {
+  text-align: left;
+  font-size: 1.1em;
+  margin-bottom: 0;
+}
+
+footer p {
+  margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 650px) {
+
+body {
+  background-image: url("../images/site/small_check.jpg");
+  background-size: cover;
+}
+
+#wrapper {
+  background-color: #ffffff;
+  margin: 20px auto;
+  max-width: 700px;
+  border: 3px solid #4c96d7;
+  border-radius: 4px;
+}
+
+#banner img {
+  display: block;
+}
+  
+#hero2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+  
+}
+
+#reviews-section1 {
+  grid-column: 3/4;
+  margin-top: 5px;
+}
+
+#reviews-section2 {
+  grid-column: 1/3; 
+  grid-row: 1/2;
+  
+}
+
+#hero2 {
+  margin-top: 0;
+}
+
+
+#banner {
+  padding: 0 0 0 20px;
+}
+
+#hero {
+  height: 380px;
+}
+
+h1 {
+  margin: 20px;
+}
+
+#banner br {
+  font-size: 1.1em;
+}
+}
