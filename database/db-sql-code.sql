@@ -48,6 +48,14 @@ CREATE TABLE IF NOT EXISTS public.account
     CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
+-- QUERY 5: Data for table 'classification'
+INSERT INTO public.classification (classification_name)
+VALUES ('Custom'),
+    ('Sport'),
+    ('SUV'),
+    ('Truck'),
+    ('Sedan');
+
 -- Data for table `inventory`
 
 INSERT INTO public.inventory (
@@ -230,21 +238,25 @@ VALUES   (
     5
 );
 
--- Query 4
-UPDATE inventory
-SET inv_description = replace(inv_description, 'small interiors', 'a huge interior')
+/* Query 4: Modify the "GM Hummer" record to read "a huge interior" rather than "small interiors" using a single query */
+UPDATE public.inventory
+SET inv_description = REPLACE(
+        inv_description,
+        'the small interiors',
+        'a huge interior'
+    )
 WHERE inv_id = 10;
--- WHERE invMake="GM" AND invModel="Hummer";
 
--- Query 5
-SELECT inv_make, inv_model, classification_name
-FROM inventory
-    JOIN classification
-    ON inventory.classification_id = classification.classification_id
-WHERE inventory.classification_id = 2;
--- WHERE classification_name = 'Sport';
-
--- Query 6
-UPDATE inventory
-SET inv_image = replace(inv_image, '/images/', '/images/vehicles/'),
-    inv_thumbnail = replace(inv_thumbnail, '/images/', '/images/vehicles/');
+/* Query 6: Update all records in the inventory table to add "/vehicles" to the middle of the file path
+ in the inv_image and inv_thumbnail columns using a single query */
+UPDATE public.inventory
+SET inv_image = REPLACE(
+        inv_image,
+        '/images',
+        '/images/vehicles'
+    ),
+    inv_thumbnail = REPLACE(
+        inv_thumbnail,
+        '/images',
+        '/images/vehicles'
+    );
