@@ -1,0 +1,59 @@
+<!-- Content Heading -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { 
+    res.redirect('/')
+} %>
+
+<!-- Message Block -->
+<%# messages() %>
+
+<%# if (errors) { %>
+    <!-- <ul class="notice"> -->
+        <%# errors.array().forEach(error => { %>
+            <!-- <li><%# error.msg %></li> -->
+        <%# }) %>
+    <!-- </ul> -->
+<%# } %>
+
+<!-- Vehicle Information Display -->
+<%- grid %>
+
+<h2>Customer Reviews</h2>
+
+<%- reviewGrid %>
+
+<% if (!locals.loggedin) { %>
+    <p>You must <a href="/account/login">login</a> to write a review.</p>
+<% } else { %>
+    <h2>Add Your Own Review</h2>
+
+    <%- messages() %>
+
+    <% if (errors) { %>
+        <ul class="notice">
+            <% errors.array().forEach(error => { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+    
+    <form action="/review/addReview" method="post">
+        <label class="lbl-properties">Screen Name:
+            <input type="text" name="screen_name" id="screen_name" value="<%= locals.accountData.account_firstname[0] + locals.accountData.account_lastname %>" readonly required>
+        </label>
+        <label class="lbl-properties">Review
+            <textarea name="review_text" id="review_text" required><%= locals.review_text %></textarea>
+        </label>
+
+        <div class="form-row">
+            <input type="submit" name="submit" id="regbtn" class="btn-submit" value="Submit Review">
+            <input type="hidden" name="inv_id"
+            <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" 
+            <% } %>>
+            <input type="hidden" name="account_id"
+            <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
+            <% } %>>
+        </div>
+    </form>
+<% } %>

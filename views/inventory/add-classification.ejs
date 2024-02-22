@@ -1,26 +1,29 @@
-<!-- Heading -->
+<!-- Content Heading -->
 <% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
 
-<!-- Flash message -->
+<!-- Message Block -->
 <%- messages() %>
 
-<!-- Display registration errors -->
 <% if (errors) { %>
-  <ul class="notice">
- <% errors.array().forEach(error => { %>
-   <li><%= error.msg %></li>
-<%  }) %>
- </ul>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
 <% } %>
 
-<!-- Display body -->
-<form action="/inv/process-add-classification" method="post">
-  <label for="classification_name">Name:</label>
-  <input type="text" name="classification_name" id="classification_name" pattern="^[a-zA-Z0-9]*$" required value="<%= locals.classification_name %>"><br>
-  <p>The new classification name cannot contain any special characters or spaces.</p>
-  <input type="submit" value="Submit">
+<!-- Add Classification Display -->
+<form action="/inv/addClassification" method="post">
+    <label class="lbl-properties">Classification Name:
+        <input type="text" name="classification_name" id="classification_name" pattern="[a-zA-z]{1,}" required>
+    </label>
+    <p class="classification_name">Classification name cannot contain a space or special character</p>
+
+    <div class="form-row">
+        <input type="submit" name="submit" id="regbtn" class="btn-submit" value="Add Classification">
+    </div>
 </form>

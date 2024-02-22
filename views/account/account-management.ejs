@@ -1,0 +1,30 @@
+<!-- Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Flash message -->
+<%- messages() %>
+
+<!-- Display registration errors -->
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- Body -->
+
+<h2>Welcome  <%=locals.accountData.account_firstname %></h2>
+<p>You're logged in!</p>
+
+<% if (locals.accountData.account_type == "Employee"|| locals.accountData.account_type == "Admin")
+{%>
+  <h3>Inventory Management</h3>
+  <p><a href="../inv/">Click here to view Inventory Management</a></p>
+<% } %>
+<p><a href="update-account/<%=locals.accountData.account_id%>">Update account information</a></p>

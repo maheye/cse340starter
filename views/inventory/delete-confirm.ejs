@@ -1,0 +1,45 @@
+<!-- Content Heading -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<!-- Message Block -->
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<% const d = new Date() %>
+<% let year = d.getFullYear() %>
+
+<!-- Edit Vehicle Display -->
+<form id="updateForm" action="/inv/delete" method="post">
+    <p class="required">Confirm Deletion - The delete is permanent.</p>
+
+    <label class="lbl-properties">Make:
+        <input type="text" id="inv_make" name="inv_make" minlength="3" placeholder="Min of 3 characters" readonly required value="<%= locals.inv_make %>">
+    </label>
+    <label class="lbl-properties">Model:
+        <input type="text" id="inv_model" name="inv_model" minlength="2" placeholder="Min of 2 characters" readonly required value="<%= locals.inv_model %>">
+    </label>
+    <label class="lbl-properties">Price:
+        <input type="number" id="inv_price" name="inv_price" step="0.01" min="0" placeholder="decimal or integer" readonly required value="<%= locals.inv_price %>">
+    </label>
+    <label class="lbl-properties">Year:
+        <input type="number" id="inv_year" name="inv_year" min="1880" max="<%= year %>" placeholder="From 1880 to present" readonly required value="<%= locals.inv_year %>">
+    </label>
+
+    <div class="form-row">
+        <input type="submit" name="submit" id="regbtn" class="btn-submit" value="Delete Vehicle">
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+        <% } %>>
+    </div>
+</form>
