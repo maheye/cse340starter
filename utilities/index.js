@@ -25,7 +25,6 @@ Util.getNav = async function (req, res, next) {
 }
 
 
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -39,9 +38,9 @@ Util.buildClassificationGrid = async function(data){
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      +' on CSE Motors"></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
+      grid += '<hr>'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -60,53 +59,72 @@ Util.buildClassificationGrid = async function(data){
 }
 
 /* **************************************
-* Build the vehicle information view HTML
+* Build the vehicle detail view HTML
 * ************************************ */
-Util.buildVehicleInfoGrid = async function (data) {
-  let grid
-  if(data.length > 0) {
-      grid = '<div id="inventory-grid">'
-      data.forEach(vehicle => {
-          grid += '<div>'
-          grid += '<img src="' + vehicle.inv_image + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model + '">'
-          grid += '</div>'
-          grid += '<div>'
-          grid += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Details</h2>'
-          grid += '<ul>'
-          grid += '<li class="colored-backgroung"><strong>Price: </strong><span>$' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span></li>'
-          grid += '<li><strong>Description: </strong>' + vehicle.inv_description + '</li>'
-          grid += '<li class="colored-backgroung"><strong>Color: </strong>' + vehicle.inv_color + '</li>'
-          grid += '<li><strong> Miles: </strong>' + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</li>'
-          grid += '</ul>'
-          grid += '</div>'
-      })
-      grid += '</div>'
-  } else {
-      grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+Util.buildVehiclesDetailsView = function(data){
+  let detailsView
+  if(data){
+    let miles = data.inv_miles.toLocaleString("en-US");
+    let priceFormatter = Intl.NumberFormat('en-US'); 
+
+    detailsView = '<div id="vehicle-details-container">'
+    detailsView += '<div id="vehicle-img-stats-container">'
+    detailsView += '<img alt="vehicle image of' + data.inv_model + data.inv_make +'" src="'+ data.inv_thumbnail +'">'
+    detailsView += '<ul id="vehicle-details-list">'
+    detailsView += '<li> Model Year: ' + data.inv_model + '</li>'
+    detailsView += '<li> Make: ' + data.inv_make + '</li>'
+    detailsView += '<li> Milage: ' + miles + '</li>'
+    detailsView += '<li> Price: $' + priceFormatter.format(data.inv_price) + '</li>'
+    detailsView += '</ul>'
+    detailsView += '</div>'
+    detailsView += '<section>'
+    detailsView += '<h2>Description</h2>'
+    detailsView += '<p>' + data.inv_description + '</p>'
+    detailsView += '</section>'
+    detailsView += '</div>'
   }
-  return grid
+  return detailsView
 }
 
 /* **************************************
-* Build a dynamic drop-down select list
+* Build the classification id dropdown list 
+* for the add inventory form
 * ************************************ */
-Util.selectList = async function (classification_id) {
-  let data = await invModel.getClassifications()
-  let list = '<select class="lbl-properties classification_id" id="classificationList" name="classification_id" required>'
-  list += '<option value="" selected>Choose a classification</option>'
-  data.rows.forEach((row) => {
-      list += `<option value="${row.classification_id}"`
-      if (classification_id) {
-          if(row.classification_id == classification_id) {
-              list += ' selected '
-          }
-      }
-      list += `>${row.classification_name}</option>`
-  })
-  list += '</select>'
-  return list
+Util.buildClassificationDropdown = async function (req, res, next) {
+  const data = await invModel.getClassifications()
+  console.log(data)
+  let dropdownList = '<label for="classification_id">Classification:</label>'
+  dropdownList += '<select name="classification_id" id="classification_id" required>'
+  dropdownList += '<option value="" disabled selected hidden>Choose a classification</option>'
+  if(data) {
+    data.rows.forEach((row) => {
+      dropdownList += '<option value="'+ row.classification_id +'">' + row.classification_name+ '</option>'
+    })
+  }
+  dropdownList += '</select><br>'
+  console.log(dropdownList)
+  return dropdownList
 }
 
+/* **************************************
+* Build the inventory dropdown list 
+* for the review 
+* ************************************ */
+Util.buildInventoryDropdown = async function (req, res, next) {
+  const data = await invModel.getInventory()
+  //console.log(data)
+  let dropdownList = '<label for="inv_id">Vehicle:</label>'
+  dropdownList += '<select name="inv_id" id="inv_id" required>'
+  dropdownList += '<option value="" selected hidden>Choose a vehicle</option>'
+  if(data) {
+    data.rows.forEach((row) => {
+      dropdownList += '<option value="'+ row.inv_id +'">'+ row.inv_make + " " + row.inv_model+ '</option>'
+    })
+  }
+  dropdownList += '</select><br>'
+  //console.log(dropdownList)
+  return dropdownList
+}
 
 /* ****************************************
  * Middleware For Handling Errors

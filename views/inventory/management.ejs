@@ -1,0 +1,29 @@
+<!-- Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Flash message -->
+<%- messages() %>
+
+<!-- Display registration errors -->
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- Display body -->
+<div><a href="/inv/add-classification">Add new classification</a></div>
+<div><a href="/inv/add-inventory">Add new vehicle</a></div>
+<h2>Manage Inventory</h2>
+<p>Select a classification from the list below to see the items belonging to the classification.</p>
+<%- classificationSelect %>
+<table id="inventoryDisplay"></table>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+
+<script src="../../js/inventory.js"></script>

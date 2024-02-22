@@ -1,0 +1,45 @@
+<!-- Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Flash message -->
+<%- messages() %>
+
+<!-- Display registration errors -->
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- Display body -->
+
+<div>
+    <form action="/inv/process-add-inventory" method="post">
+        <label for="inv_make">Make:</label>
+        <input type="text" name="inv_make" id="inv_make" required value="<%= locals.inv_make %>"><br>
+        <label for="inv_model">Model:</label>
+        <input type="text" name="inv_model" id="inv_model" required value="<%= locals.inv_model %>"><br>
+        <label for="inv_year">Year:</label>
+        <input type="text" name="inv_year" id="inv_year" required value="<%= locals.inv_year %>"><br>
+        <label for="inv_description">Description:</label><br>
+        <textarea name="inv_description" id="inv_description" required></textarea><br>
+        <label for="inv_image">Upload image:</label>
+        <input type="text" name="inv_image" id="inv_image" value="/images/vehicles/no-image.png" required><br>
+        <label for="inv_thumbnail">Upload image:</label>
+        <input type="text" name="inv_thumbnail" id="inv_thumbnail" value="/images/vehicles/no-image-tn.png" required><br>
+        <label for="inv_price">Price:</label>
+        <input type="number" name="inv_price" id="inv_price"  required value="<%= locals.inv_price %>"><br>
+        <label for="inv_miles">Miles:</label>
+        <input type="number" name="inv_miles" id="inv_miles" required value="<%= locals.inv_miles %>"><br>
+        <label for="inv_color">Color:</label>
+        <input type="text" name="inv_color" id="inv_color" required value="<%= locals.inv_color %>"><br>
+        <%- dropdown %>
+        <input type="submit" value="Submit">
+     </form>   
+    </div>

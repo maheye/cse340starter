@@ -13,6 +13,7 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByInventoryId));
 
 
+
 // 500 Error Route
 router.get("/broken", utilities.handleErrors(baseController.buildFooter))
 

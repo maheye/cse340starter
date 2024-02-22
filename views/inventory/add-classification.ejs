@@ -1,0 +1,26 @@
+<!-- Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<!-- Flash message -->
+<%- messages() %>
+
+<!-- Display registration errors -->
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- Display body -->
+<form action="/inv/process-add-classification" method="post">
+  <label for="classification_name">Name:</label>
+  <input type="text" name="classification_name" id="classification_name" pattern="^[a-zA-Z0-9]*$" required value="<%= locals.classification_name %>"><br>
+  <p>The new classification name cannot contain any special characters or spaces.</p>
+  <input type="submit" value="Submit">
+</form>
