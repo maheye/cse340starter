@@ -19,7 +19,7 @@ router.post(
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
   )
-  
+
 // Process the login request
 router.post(
   "/login",
@@ -27,10 +27,20 @@ router.post(
   regValidate.checkLoginData,
   utilities.handleErrors(accountController.accountLogin)
 )
+// Build update account view
+router.get("/update/:account_id", utilities.handleErrors(accountController.buildUpdateAccount))
 
-/* ***********************
- * Deliver Account Management View
- *************************/
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
+// Process the update account data
+router.post(
+  "/update/",
+  regValidate.UpdateAccountRules(),
+  regValidate.checkUpdateAccountData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+// Route to build the account management view
+router.get("/", utilities.checkLogin , utilities.handleErrors(accountController.buildAccountManagement))
+
+
 
 module.exports = router

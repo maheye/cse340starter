@@ -46,3 +46,11 @@ function buildInventoryList(data) {
     // Display the contents in the Inventory Management view 
     inventoryDisplay.innerHTML = dataTable;
 }
+
+
+// update the inventory
+const form = document.querySelector("#updateForm")
+form.addEventListener("change", function () {
+    const updateBtn = document.querySelector("#updateBtn")
+    updateBtn.removeAttribute("disabled")
+})

@@ -8,7 +8,6 @@
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
-const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const invController = require("./controllers/invController")
@@ -20,7 +19,7 @@ const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 
-
+const app = express()
 
 /* ***********************
  * Middleware
@@ -69,9 +68,11 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
 app.use("/inv", utilities.handleErrors(inventoryRoute))
+app.use("/inv", utilities.handleErrors(baseController))
 
 // Account routes
 app.use("/account", utilities.handleErrors(accountRoute))
+
 
 
 // File Not Found Route - must be last route in list

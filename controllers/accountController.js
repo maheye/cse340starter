@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 
+
 /* ****************************************
 *  Deliver login view
 * *************************************** */
@@ -111,17 +112,77 @@ async function accountLogin(req, res) {
   }
  }
 
- /* ******************************************
- * Deliver Account Management view
- *******************************************/
-async function buildAccountManagement(req,res,next) {
+/* ****************************************
+    *  Deliver account management view
+* *************************************** */
+async function buildAccountManagement (req, res, next) {
+  const account_id = res.locals.accountData.account_id
+  console.log(account_id)
+  const data = await reviewModel.getReviewByAccountId(account_id)
+  console.log(data)
+  const grid = await utilities.buildReviewGrid(data)
   let nav = await utilities.getNav()
-  res.render("./account/account-management", {
-    title: "Account Management",
-    nav,
-    errors: null,
+  res.render("account/account-management", {
+      title: "Account Management",
+      nav,
+      errors: null,
+      grid,
+      account_id
   })
 }
 
+/* ****************************************
+    *  Deliver update account view
+* *************************************** */
+async function buildUpdateAccount (req, res, next) {
+  const account_id = parseInt(req.params.account_id)
+  let nav = await utilities.getNav()
+  const accountData = await accountModel.getAccountByAccountId(account_id)
+  // console.log(accountData) 
+  res.render("account/update-account", {
+      title: "Edit Account",
+      nav,
+      errors: null,
+      account_id: accountData[0].account_id,
+      account_firstname: accountData[0].account_firstname,
+      account_lastname: accountData[0].account_lastname,
+      account_email: accountData[0].account_email,
+  })
+}
+
+/* ****************************************
+*  Process account update / Update account
+* *************************************** */
+async function updateAccount(req, res, next) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email, account_id } = req.body
+
+  const updateResult = await accountModel.updateAccount(
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_id,
+  )
+
+  if (updateResult) {
+      req.flash(
+          "notice",
+          "Congratulations, your information has been updated."
+      )
+      res.redirect("/account/")
+  } else {
+      req.flash("notice", "Sorry, the update failed.")
+      res.status(501).render("account/update-account", {
+          title: "Edit Account",
+          nav,
+          errors: null,
+          account_firstname,
+          account_lastname,
+          account_email,
+          account_id
+      })
+  }
+}
+
   
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, buildUpdateAccount, updateAccount}
