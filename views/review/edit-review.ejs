@@ -1,0 +1,38 @@
+<!-- Content Heading -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<!-- Message Block -->
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<!-- Edit Review Display -->
+<form action="/review/update" method="post">
+    <p class="required">All Fields are Required.</p>
+
+    <label class="lbl-properties">Review Date:
+        <input type="text" name="review_date" id="review_date" value="<%= locals.review_date %>" required readonly>
+    </label>
+
+    <label class="lbl-properties">Review Text:
+        <textarea name="review_text" id="review_text" required><%= locals.review_text %></textarea>
+    </label>
+
+    <div class="form-row">
+        <input type="submit" name="submit" id="updateForm" class="btn-submit" value="Update Review">
+        <input type="hidden" name="review_id"
+        <% if(locals.review_id) { %> value="<%= locals.review_id %>"
+        <% } %>>
+    </div>
+</form>
+<script src="../../js/inv-update.js"></script>

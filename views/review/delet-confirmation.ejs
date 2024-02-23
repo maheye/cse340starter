@@ -1,0 +1,37 @@
+<!-- Content Heading -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<!-- Message Block-->
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<!-- Delete Review Display -->
+<form action="/review/delete" method="post">
+    <p class="required">Confirm Deletion - The delete is permanent.</p>
+
+    <label class="lbl-properties">Review Date:
+        <input type="text" name="review_date" id="review_date" value="<%= locals.review_date %>" required readonly>
+    </label>
+
+    <label class="lbl-properties">Review Text:
+        <textarea name="review_text" id="review_text" readonly required><%= locals.review_text %></textarea>
+    </label>
+
+    <div class="form-row">
+        <input type="submit" name="submit" class="btn-submit" value="Delete Review">
+        <input type="hidden" name="review_id"
+        <% if(locals.review_id) { %> value="<%= locals.review_id %>"
+        <% } %>>
+    </div>
+</form>

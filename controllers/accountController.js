@@ -184,5 +184,74 @@ async function updateAccount(req, res, next) {
   }
 }
 
+/* ****************************************
+*  Process Change Password
+* *************************************** */
+async function changePassword(req, res) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email, account_id, account_password } = req.body
+
+  // Hash the password before storing
+  let hashedPassword
+  try {
+      // regular password and cost (salt is generated automatically)
+      hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+      req.flash("notice", 'Sorry, there was an error processing the updating.')
+      res.status(500).render("account/update-account", {
+          title: "Edit Account",
+          nav,
+          errors: null,
+          account_firstname,
+          account_lastname,
+          account_email,
+      })
+  }
+
+  const changeResult = await accountModel.changePassword(
+      hashedPassword,
+      account_id
+  )
+
+  if (changeResult) {
+      req.flash(
+          "notice",
+          "Congratulations, your information has been updated."
+      )
+      res.redirect("/account/")
+  } else {
+      req.flash("notice", "Sorry, the update failed.")
+      res.status(501).render("account/update-account", {
+          title: "Edit Account",
+          nav,
+          errors: null,
+          account_firstname,
+          account_lastname,
+          account_email,
+          account_id
+      })
+  }
+}
+
+
+/* ******************************************
+ * Deliver Account Logout view (Assignment 5)
+ *******************************************/
+async function buildLogoutView(req,res,next) {
+  let nav = await utilities.getNav()
+  res.render("./account/logout", {
+    title: "Logout",
+    nav,
+    errors: null,
+  })
+}
+
+/* ******************************************
+ * Process Logout (Assignment 5)
+ *******************************************/
+async function processLogout(req,res,next) {
+  return res.redirect("../../")
+}
+
   
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, buildUpdateAccount, updateAccount}
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement, buildUpdateAccount, updateAccount, changePassword, buildLogoutView, processLogout}

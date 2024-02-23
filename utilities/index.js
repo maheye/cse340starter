@@ -204,5 +204,19 @@ Util.buildReviewGrid = async function(data) {
   return grid
 }
 
+/* ****************************************
+ *  Process Logout
+ * ************************************ */
+Util.logout = (req, res, next) => {
+    if (req.cookies.jwt) {
+        res.clearCookie("jwt")
+        next()
+        //return res.redirect("/account/login")
+       }
+    else {
+      req.flash("notice", "Logout failed.")
+      return res.redirect("/account/logout")
+    }
+   }
 
 module.exports = Util
